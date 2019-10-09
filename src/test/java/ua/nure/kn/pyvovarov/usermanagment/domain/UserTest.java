@@ -1,39 +1,38 @@
 package ua.nure.kn.pyvovarov.usermanagment.domain;
-import junit.framework.TestCase;
-import ua.nure.kn.pyvovarov.usermanagment.domain.User;
-
 import java.util.Calendar;
 import java.util.Date;
 
+import junit.framework.TestCase;
+
+
 public class UserTest extends TestCase {
-  
     public static final int CURRENT_YEAR = 2019;
 
-    //Test case ¹ 1 if the birth day in the next month of the year
+    //Test case # 1 if the birth day in the next month of the year
     public static final int YEAR_OF_BIRTH1 = 2000;
     public static final int MONTH_OF_BIRTH1 = Calendar.DECEMBER;
     public static final int DATE_OF_BIRTH1 = 3;
     public static final int ETALONE_AGE1 = CURRENT_YEAR - YEAR_OF_BIRTH1 - 1;
 
-    // Test case ¹ 2 if the birth day is today
+    // Test case # 2 if the birth day is today
     public static final int YEAR_OF_BIRTH2 = 1999;
     public static final int MONTH_OF_BIRTH2 = Calendar.AUGUST;
     public static final int DATE_OF_BIRTH2 = 14;
     public static final int ETALONE_AGE2 = CURRENT_YEAR - YEAR_OF_BIRTH2 ;
 
-    // Test case ¹ 3 if the birth day is this month but DayOfBirth later than CurrentDay
+    // Test case # 3 if the birth day is this month but DayOfBirth later than CurrentDay
     public static final int YEAR_OF_BIRTH3 = 1998;
     public static final int MONTH_OF_BIRTH3 = Calendar.OCTOBER;
     public static final int DATE_OF_BIRTH3 = 15;
     public static final int ETALONE_AGE3 = CURRENT_YEAR - YEAR_OF_BIRTH3 -1 ;
 
-    // Test case ¹ 4 if the birth day is this month but DayOfBirth earlier than CurrentDay
+    // Test case # 4 if the birth day is this month but DayOfBirth earlier than CurrentDay
     public static final int YEAR_OF_BIRTH4 = 2000;
     public static final int MONTH_OF_BIRTH4 = Calendar.SEPTEMBER;
     public static final int DATE_OF_BIRTH4 = 15;
     public static final int ETALONE_AGE4 = CURRENT_YEAR - YEAR_OF_BIRTH4;
 
-    // Test case ¹ 5 if the birthday has passed
+    // Test case # 5 if the birthday has passed
     public static final int YEAR_OF_BIRTH5 = 1980;
     public static final int MONTH_OF_BIRTH5 = Calendar.AUGUST;
     public static final int DATE_OF_BIRTH5 = 20;

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     26 вер. 2019 10:33:37                                                        
+
+     usermanagement    
+     description
+                   
+     oleksii                                                                
+     ====================================================================== -->
+<project name="usermanagement" basedir="." default="test">
+    <description>
+            description
+    </description>
+  
+  <property name="build-dir" value="${basedir}/target"/>
+  <property name="classes-dir" value="${basedir}/classes"/>
+  <property name="test-java-dir" value="${basedir}/src/test/java"/>
+  <property name="main-java-dir" value="${basedir}/src/main/java"/>
+    
+  <!-- ================================= 
+          target: main compile            
+         ================================= -->
+  
+	   <target name="test" depends="test-compile" description="description">
+	      <junit>
+	            <classpath>
+	              <pathelement location="${build-dir}" />
+	              <fileset dir="${lib-dir}">
+	                <include name="**/junit3.8.1.jar" />
+	              </fileset>
+	            </classpath>
+	            <test name="ua.nure.kn.pyvovarov.usermanagment.domain.UserTest" />
+	            <formatter type="plain" />
+	          </junit>
+	    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          target: depends                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="test-compile" depends="init">
+    	 <javac includeantruntime="false" srcdir="${test-java-dir}" destdir="${build-dir}">
+    	      <classpath>
+    	        <path id="org.junit" location="${lib-dir}/junit3.8.1.jar" />
+    	      </classpath>
+    	    </javac>    </target>	
+    
+   <target name="init" depends="clean"> <!-- recreation of folder -->
+     <mkdir dir="${build-dir}"/>
+     <mkdir dir="${classes-dir}"/>
+     </target>
+  
+   <target name="clean"> <!-- #1 -->
+     <delete dir="${build-dir}" failonerror="no"/> <!-- deletion of current folder -->
+   </target>
+  
+</project>
