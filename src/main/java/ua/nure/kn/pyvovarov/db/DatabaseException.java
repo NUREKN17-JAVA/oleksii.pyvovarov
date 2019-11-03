@@ -1,5 +1,14 @@
-package ua.nure.kn.pyvovarov.db;
+package ua.nure.cs.sameliuk.usermanagment.domain.db;
 
-public class DatabaseException extends Exception {
+import java.sql.SQLException;
 
+public class DataBaseException extends Exception {
+
+    public DataBaseException(SQLException e) {
+        super(e);
+    }
+
+    public DataBaseException(String s) {
+        super(s);
+    }
 }

@@ -1,12 +1,16 @@
 package ua.nure.kn.pyvovarov.db;
 
-import org.dbunit.DatabaseUnitException;
+import java.util.Collection;
 
-public interface Dao<T> {
- T create (T entity) throws DatabaseException;
- void update(T entity) throws DatabaseException;
- void delete (T entity) throws DatabaseException;
-T find (T entity) throws DatabaseException;
-void find(long id) throws DatabaseException;
-Ñollection<T> findAll() throws DatabaseException;
+public interface Dao<T>{
+
+    T create(T entity) throws DataBaseException;
+
+    void update(T entity) throws DataBaseException;
+
+    void delete(T entity) throws DataBaseException;
+
+    T find(Long id) throws DataBaseException;
+
+    Collection<T> findAll() throws DataBaseException;
 }
