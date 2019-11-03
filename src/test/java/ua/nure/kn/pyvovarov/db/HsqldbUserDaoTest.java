@@ -8,6 +8,7 @@ import org.dbunit.dataset.xml.XmlDataSet;
 
 import ua.nure.kn.pyvovarov.usermanagment.domain.User;
 
+import java.util.Collection;
 import java.util.Date;
 
 public class HsqldbUserDaoTest extends DatabaseTestCase {
@@ -33,6 +34,18 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
                          userToCheck.getFirstName());
         } catch (DataBaseException e) {
             fail(e.toString());
+        }
+    }
+
+    public void testFindAll() {
+        try {
+            int expectedCollectionSize = 2;
+            Collection users = hsqldbUserDao.findAll();
+            assertNotNull("Collection is null", users);
+            assertEquals("Collection size.", expectedCollectionSize, users.size());
+        } catch (DataBaseException e) {
+            e.getMessage();
+            e.printStackTrace();
         }
     }
 
