@@ -17,8 +17,7 @@ public class HsqldbUserDao implements Dao<User> {
 	    public HsqldbUserDao(ConnectionFactory factory) {
 	        connectionFactory = factory;
 	    }
-	    public static final String INSERT_QUERY = "INSERT INTO users " +
-	            "(firstname, lastname, dateofbirth VALUES (?,?,?))"; 
+	    public static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth VALUES (?,?,?))"; 
     @Override
     public User create(User entity) throws DataBaseException {
     	 try {

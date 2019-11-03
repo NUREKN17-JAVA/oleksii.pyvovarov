@@ -4,6 +4,8 @@ import org.dbunit.DatabaseTestCase;
 import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.XmlDataSet;
+
 import ua.nure.kn.pyvovarov.usermanagment.domain.User;
 
 import java.util.Date;
@@ -36,7 +38,6 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected void setUp() throws Exception {
-        super.setUp();
         connectionFactory = new ConnectionFactoryImpl();
         hsqldbUserDao = new HsqldbUserDao(connectionFactory);
     }
@@ -54,6 +55,8 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected IDataSet getDataSet() throws Exception {
-        return null;
+    	 IDataSet dataSet = new XmlDataSet(getClass().getClassLoader()
+                 .getResourceAsStream("usersDataSet.xml"));
+    	 	return dataSet;  
     }
 }
