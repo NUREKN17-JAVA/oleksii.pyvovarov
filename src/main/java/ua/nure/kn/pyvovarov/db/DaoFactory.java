@@ -12,6 +12,12 @@ public class DaoFactory {
 	 private static final String DRIVER = "connection.driver";
 	 private static final String HSQLDB_USER_DAO = "ua.nure.kn.pyvovarov.db.HsqldbUserDao";
 	    
+	 private final static DaoFactory INSTANCE = new DaoFactory();
+	    
+	    public static DaoFactory getInstance() {
+	        return INSTANCE;
+	    }
+	    
 	    public DaoFactory() {
 	        this.properties = new Properties();
 	        try {
