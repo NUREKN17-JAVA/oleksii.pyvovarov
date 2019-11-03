@@ -2,9 +2,11 @@ package ua.nure.kn.pyvovarov.db;
 
 import ua.nure.kn.pyvovarov.usermanagment.domain.User;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 
@@ -30,6 +32,16 @@ public class HsqldbUserDao implements Dao<User> {
              if (numberOfRows != 1) {
                  throw new DataBaseException("Number of inserted rows: " + numberOfRows);
              }
+             CallableStatement callableStatement = connection
+                     .prepareCall("call IDENTITY()");
+             ResultSet keys = callableStatement.executeQuery();
+             if (keys.next()) {
+                 entity.setId(keys.getLong(1));
+             }
+             keys.close();
+             callableStatement.close();
+             statement.close();
+             connection.close();
              return null;
          } catch (DataBaseException e) {
              throw e;
