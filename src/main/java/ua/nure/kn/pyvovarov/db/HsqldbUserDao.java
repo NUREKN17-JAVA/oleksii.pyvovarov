@@ -8,6 +8,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class HsqldbUserDao implements Dao<User> {
@@ -17,9 +19,14 @@ public class HsqldbUserDao implements Dao<User> {
 	    public HsqldbUserDao(ConnectionFactory factory) {
 	        connectionFactory = factory;
 	    }
-	    public static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth VALUES (?,?,?))"; 
-    @Override
-    public User create(User entity) throws DataBaseException {
+	    private static final String CALL_IDENTITY = "call IDENTITY()";
+
+	    private static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth) VALUES (?, ?, ?)";
+
+	    private String FIND_ALL_USERS = "SELECT * FROM users";
+
+	    @Override
+	    public User create(User entity) throws DataBaseException {
     	 try {
              Connection connection = connectionFactory.createConnection();
              PreparedStatement statement = connection.prepareStatement(INSERT_QUERY);
@@ -32,7 +39,7 @@ public class HsqldbUserDao implements Dao<User> {
                  throw new DataBaseException("Number of inserted rows: " + numberOfRows);
              }
              CallableStatement callableStatement = connection
-                     .prepareCall("call IDENTITY()");
+            		  .prepareCall(CALL_IDENTITY);
              ResultSet keys = callableStatement.executeQuery();
              if (keys.next()) {
                  entity.setId(keys.getLong(1));
@@ -66,6 +73,25 @@ public class HsqldbUserDao implements Dao<User> {
 
     @Override
     public Collection<User> findAll() throws DataBaseException {
-        return null;
+    	   Collection result = new ArrayList<>();
+           try {
+               Connection connection = connectionFactory.createConnection();
+               Statement statement = connection.createStatement();
+               ResultSet resultSet = statement.executeQuery(FIND_ALL_USERS);
+               while (resultSet.next()) {
+                   User user = new User();
+                   user.setId(resultSet.getLong(1));
+                   user.setFirstName(resultSet.getString(2));
+                   user.setLastName(resultSet.getString(3));
+                   user.setDateOfBirth(resultSet.getDate(4));
+                   result.add(user);
+               }
+           } catch (DataBaseException e) {
+               throw e;
+           } catch (SQLException e) {
+               throw new DataBaseException(e);
+           }
+
+           return result;
     }
 }
