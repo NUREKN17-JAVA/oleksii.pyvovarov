@@ -59,8 +59,9 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected void setUp() throws Exception {
-//    	super.setUp();
-//        connectionFactory = new ConnectionFactoryImpl();
+    	  connectionFactory = new ConnectionFactoryImpl("sa", "",
+                  "jdbc:hsqldb:file:db/usermanagment",
+                  "org.hsqldb.jdbcDriver");
         hsqldbUserDao = new HsqldbUserDao(connectionFactory);
     }
 
@@ -71,8 +72,10 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
-//        connectionFactory = new ConnectionFactoryImpl();
-        return new DatabaseConnection(connectionFactory.createConnection());
+    	   connectionFactory = new ConnectionFactoryImpl("sa", "",
+                   "jdbc:hsqldb:file:db/usermanagment",
+                   "org.hsqldb.jdbcDriver");       
+    	   return new DatabaseConnection(connectionFactory.createConnection());
     }
 
     @Override
