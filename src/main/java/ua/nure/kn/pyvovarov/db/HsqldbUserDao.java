@@ -5,7 +5,13 @@ import ua.nure.kn.pyvovarov.usermanagment.domain.User;
 import java.util.Collection;
 
 public class HsqldbUserDao implements Dao<User> {
+	
+	 private final ConnectionFactory connectionFactory;
 
+	    public HsqldbUserDao(ConnectionFactory factory) {
+	        connectionFactory = factory;
+	    }
+	    
     @Override
     public User create(User entity) throws DataBaseException {
         return null;

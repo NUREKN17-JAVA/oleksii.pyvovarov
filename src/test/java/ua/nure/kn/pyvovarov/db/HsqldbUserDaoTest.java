@@ -1,6 +1,7 @@
 package ua.nure.kn.pyvovarov.db;
 
 import org.dbunit.DatabaseTestCase;
+import org.dbunit.database.DatabaseConnection;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import ua.nure.kn.pyvovarov.usermanagment.domain.User;
@@ -12,7 +13,8 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Doe";
     private HsqldbUserDao hsqldbUserDao;
-
+    private ConnectionFactory connectionFactory;
+    
     public void testCreate() {
         try {
             User user = new User();
@@ -35,7 +37,8 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        hsqldbUserDao = new HsqldbUserDao();
+        connectionFactory = new ConnectionFactoryImpl();
+        hsqldbUserDao = new HsqldbUserDao(connectionFactory);
     }
 
     @Override
@@ -45,7 +48,8 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
-        return null;
+        connectionFactory = new ConnectionFactoryImpl();
+        return new DatabaseConnection(connectionFactory.createConnection());
     }
 
     @Override
