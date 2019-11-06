@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 
 class HsqldbUserDao implements Dao<User> {
 
@@ -18,8 +19,8 @@ class HsqldbUserDao implements Dao<User> {
 	 private ConnectionFactory connectionFactory;
 	 
 
-	    public HsqldbUserDao(ConnectionFactory factory) {
-	        connectionFactory = factory;
+	    public HsqldbUserDao(ConnectionFactory connectionFactory) {
+	        this.connectionFactory = connectionFactory;
 	    }
 	    private static final String CALL_IDENTITY = "call IDENTITY()";
 
@@ -33,9 +34,16 @@ class HsqldbUserDao implements Dao<User> {
 
 	    private final String UPDATE_USER = "UPDATE USERS SET firstname = ?, lastname = ?, dateofbirth = ? WHERE id = ?";
 	    
-	    public HsqldbUserDao() {
+	    public HsqldbUserDao() {}
+
+	    public ConnectionFactory getConnectionFactory() {
+	        return connectionFactory;
 	    }
 
+	    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+	        this.connectionFactory = connectionFactory;
+	    }
+	    
 	    @Override
 	    public User create(User entity) throws DataBaseException {
     	 try {
@@ -59,12 +67,13 @@ class HsqldbUserDao implements Dao<User> {
              callableStatement.close();
              statement.close();
              connection.close();
-             return entity;
+          
          } catch (DataBaseException e) {
              throw e;
          } catch (SQLException e) {
              throw new DataBaseException(e);
          }
+    	   return entity;
     }
 
     @Override
@@ -108,7 +117,8 @@ class HsqldbUserDao implements Dao<User> {
                connection.close();
                statement.close();
            } catch (SQLException e) {
-               e.printStackTrace();
+        	     throw new DataBaseException(e.toString());
+        	     
            }
     }
 
@@ -120,9 +130,7 @@ class HsqldbUserDao implements Dao<User> {
              PreparedStatement statement = connection.prepareStatement(FIND_BY_ID);
              statement.setLong(1, id);
              ResultSet resultSet = statement.executeQuery();
-
-             user = null;
-             while (resultSet.next()) {
+             if (resultSet.next()) {
                  user = new User();
                  user.setId(resultSet.getLong(1));
                  user.setFirstName(resultSet.getString(2));
@@ -133,14 +141,14 @@ class HsqldbUserDao implements Dao<User> {
              statement.close();
              resultSet.close();
          } catch (SQLException e) {
-             e.printStackTrace();
+    	     throw new DataBaseException(e.toString());
          }
          return user;
     }
 
     @Override
     public Collection<User> findAll() throws DataBaseException {
-    	   Collection result = new ArrayList<>();
+    	   Collection<User> result = new LinkedList<User>();
            try {
                Connection connection = connectionFactory.createConnection();
                Statement statement = connection.createStatement();
@@ -153,6 +161,9 @@ class HsqldbUserDao implements Dao<User> {
                    user.setDateOfBirth(resultSet.getDate(4));
                    result.add(user);
                }
+               resultSet.close();
+               statement.close();
+               connection.close();
            } catch (DataBaseException e) {
                throw e;
            } catch (SQLException e) {
@@ -162,11 +173,5 @@ class HsqldbUserDao implements Dao<User> {
            return result;
     }
     
-    public ConnectionFactory getConnectionFactory() {
-        return connectionFactory;
-    }
 
-    public void setConnectionFactory(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-    }
 }

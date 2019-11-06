@@ -3,6 +3,8 @@ package ua.nure.kn.pyvovarov.db;
 import java.io.IOException;
 import java.util.Properties;
 
+import ua.nure.kn.pyvovarov.usermanagment.domain.User;
+
 public class DaoFactory {
 	 private final Properties properties;
 	 private static final String PROPERTIES = "settings.properties";
@@ -36,15 +38,15 @@ public class DaoFactory {
 	        return new ConnectionFactoryImpl(user, password, url, driver);
 	    }
 
-	    public Dao getDao() throws ReflectiveOperationException {
-	        Dao result = null;
+	    public Dao<User> getDao() throws ReflectiveOperationException {
+	        Dao<User> userDao = null;
 	        try {
 	            Class hsqldbUserDaoClass = Class.forName(properties.getProperty(HSQLDB_USER_DAO));
-	            result = (Dao) hsqldbUserDaoClass.newInstance();
-	            result.setConnectionFactory(createConnection());
+	            userDao = (Dao<User>) hsqldbUserDaoClass.newInstance();
+	            userDao.setConnectionFactory(createConnection());
 	        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 	            throw new ReflectiveOperationException(e);
 	        }
-	        return result;
+	        return userDao;
 	    }
 }

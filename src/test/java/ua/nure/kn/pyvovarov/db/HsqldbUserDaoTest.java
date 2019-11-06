@@ -15,76 +15,65 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Doe";
-    private static final long ID = 1000;
+    private static final long ID = 1L;
     private static final String USER = "sa";
     private static final String PASSWORD = "";
-    private static final String URL = "jdbc:hsqldb:file:db/usermanagment";
+    private static final String URL = "jdbc:hsqldb:file:db/usermanagement";
     private static final String DRIVER = "org.hsqldb.jdbcDriver";
     private static final String XML_FILE = "usersDataSet.xml";
+    private static final int NUMBER_OF_ROWS = 2;
+
     private HsqldbUserDao hsqldbUserDao;
     private ConnectionFactory connectionFactory;
     
     private User user;
     
-    private User createUserWithoutID() {
-        User user = new User(null, FIRST_NAME, LAST_NAME, new Date());
-        return user;
-    }
-
-    private User createUserWithID() {
-        User user = new User(ID, FIRST_NAME, LAST_NAME, new Date());
-        return user;
-    }
     public void testCreate() {
-        try {
-            User user = createUserWithoutID();
-            assertNull(user.getId());
+    	 try {
+             assertNotNull(user.getId());
 
-            User userToCheck = hsqldbUserDao.create(user);
+             User userToCheck = hsqldbUserDao.create(user);
+             assertNotNull(userToCheck);
 
-            assertNotNull(userToCheck);
-            assertNotNull(userToCheck.getId());
-            assertEquals("Creating of user was failed.", user.getFirstName(),
-                         userToCheck.getFirstName());
-        } catch (DataBaseException e) {
-            fail(e.toString());
-        }
+             assertEquals(user.getFirstName(), userToCheck.getFirstName());
+             assertEquals(user.getLastName(), userToCheck.getLastName());
+             assertEquals(user.getDateOfBirth(), userToCheck.getDateOfBirth());
+         } catch (DataBaseException e) {
+             fail(e.toString());
+         }
     }
 
     public void testFindAll() {
         try {
-            User user = createUserWithoutID();
-              int expectedCollectionSize = hsqldbUserDao.findAll()
-                                                        .size() + 1;
-              hsqldbUserDao.create(user);
-            Collection users = hsqldbUserDao.findAll();
+            Collection<User> users = hsqldbUserDao.findAll();
             assertNotNull("Collection is null", users);
-            assertEquals("Collection size.", expectedCollectionSize, users.size());
+            assertEquals("Collection size.", NUMBER_OF_ROWS, users.size());
         } catch (DataBaseException e) {
             e.getMessage();
             e.printStackTrace();
         }
     }
     public void testFind() throws DataBaseException {
-        hsqldbUserDao.create(createUserWithID());
-        User testUser = hsqldbUserDao.find(ID);
-        assertNotNull(testUser);
-        assertEquals(testUser.getFirstName(), user.getFirstName());
-        assertEquals(testUser.getLastName(), user.getLastName());
-    }
+    	 assertNotNull(user.getId());
+
+         User ethalonUser = hsqldbUserDao.create(user);
+         User findedUser = hsqldbUserDao.find(ethalonUser.getId());
+
+         assertNotNull(findedUser);
+         assertEquals(ethalonUser.getId(), findedUser.getId());
+         assertEquals(ethalonUser.getFirstName(), findedUser.getFirstName());
+         assertEquals(ethalonUser.getLastName(), findedUser.getLastName());
+         }
 
     public void testDelete() throws DataBaseException {
-        User testUser = createUserWithID();
-        hsqldbUserDao.delete(testUser);
-        assertNull(hsqldbUserDao.find(ID));
+    	   User deletedUser = hsqldbUserDao.create(user);
+    	   hsqldbUserDao.delete(deletedUser);
+           assertNull(hsqldbUserDao.find(deletedUser.getId()));
     }
 
     public void testUpdate() throws DataBaseException {
-        String testFirstName = "Sam";
-        String testLastName = "Smith";
-        Date testDateOfBirth = new Date();
-        User testUser = new User(1L, testFirstName, testLastName, testDateOfBirth);
-        hsqldbUserDao.create(testUser);
+    	User testUser = user;
+        hsqldbUserDao.create(user); 
 
         testUser.setFirstName("Sam11");
 
@@ -97,10 +86,15 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
 
     @Override
     protected void setUp() throws Exception {
-    	 user = createUserWithoutID();
-         connectionFactory = new ConnectionFactoryImpl(USER, PASSWORD, URL, DRIVER);
-        hsqldbUserDao = new HsqldbUserDao(connectionFactory);
-    }
+    	 super.setUp();
+
+         user = new User();
+         user.setId(ID);
+         user.setFirstName(FIRST_NAME);
+         user.setLastName(LAST_NAME);
+         user.setDateOfBirth(new Date());
+
+         hsqldbUserDao = new HsqldbUserDao(connectionFactory);  }
 
     @Override
     protected void tearDown() throws Exception {
