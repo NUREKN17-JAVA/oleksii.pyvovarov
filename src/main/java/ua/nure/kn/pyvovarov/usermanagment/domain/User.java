@@ -12,8 +12,10 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private Date dateOfBirth;
-
-
+    
+    public User() {
+    }
+    
     public Long getId() {
         return id;
     }
@@ -73,7 +75,7 @@ public class User implements Serializable {
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        this.dateOfBirth = (Date) dateOfBirth.clone();
     }
 
     public String getFullName() {
