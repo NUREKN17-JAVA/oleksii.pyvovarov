@@ -83,7 +83,6 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
         assertEquals(testUser.getFirstName(), updatedUser.getFirstName());
         assertEquals(testUser.getLastName(), updatedUser.getLastName());
     }
-
     @Override
     protected void setUp() throws Exception {
     	 super.setUp();
@@ -100,7 +99,6 @@ public class HsqldbUserDaoTest extends DatabaseTestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-
     @Override
     protected IDatabaseConnection getConnection() throws Exception {
         connectionFactory = new ConnectionFactoryImpl(USER, PASSWORD, URL, DRIVER);
