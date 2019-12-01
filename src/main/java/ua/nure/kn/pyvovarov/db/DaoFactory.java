@@ -3,50 +3,57 @@ package ua.nure.kn.pyvovarov.db;
 import java.io.IOException;
 import java.util.Properties;
 
-import ua.nure.kn.pyvovarov.usermanagment.domain.User;
+import javax.management.RuntimeErrorException;
 
-public class DaoFactory {
-	 private final Properties properties;
-	 private static final String PROPERTIES = "settings.properties";
-	 private static final String USER = "connection.user";
-	 private static final String PASSWORD = "connection.password";
-	 private static final String URL = "connection.url";
-	 private static final String DRIVER = "connection.driver";
-	 private static final String HSQLDB_USER_DAO = "dao.UserDao";	    
-	 
-	 private final static DaoFactory INSTANCE = new DaoFactory();
-	    
-	    public static DaoFactory getInstance() {
-	        return INSTANCE;
-	    }
-	    
-	    public DaoFactory() {
-	        this.properties = new Properties();
-	        try {
-	            properties.load(getClass().getClassLoader()
-	            	    .getResourceAsStream(PROPERTIES));
-	        } catch (IOException e) {
-	            throw new RuntimeException(e);
-	        }
-	    }
-	    private ConnectionFactory createConnection() {
-	    	    String user = properties.getProperty(USER);
-	    	    String password = properties.getProperty(PASSWORD);
-	    	    String url = properties.getProperty(URL);
-	    	    String driver = properties.getProperty(DRIVER);
-
-	        return new ConnectionFactoryImpl(user, password, url, driver);
-	    }
-
-	    public Dao<User> getDao() throws ReflectiveOperationException {
-	        Dao<User> userDao = null;
-	        try {
-	            Class hsqldbUserDaoClass = Class.forName(properties.getProperty(HSQLDB_USER_DAO));
-	            userDao = (Dao<User>) hsqldbUserDaoClass.newInstance();
-	            userDao.setConnectionFactory(createConnection());
-	        } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-	            throw new ReflectiveOperationException(e);
-	        }
-	        return userDao;
-	    }
+public abstract class DaoFactory {
+	protected static final String USER_DAO = "dao.ua.nure.kn.pyvovarov.usermanagement.domain.db.UserDao";
+	private static final String DAO_FACTORY = "dao.factory";
+	protected static Properties properties;
+	
+// 	private final static DaoFactory INSTANCE = new DaoFactory();
+	private static DaoFactory instance;
+	
+	static {
+		properties = new Properties();
+		try {
+			properties.load(DaoFactory.class.getClassLoader().getResourceAsStream("settings.properties"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static synchronized DaoFactory getInstance() {
+		if (instance == null) {
+			Class factoryClass;
+			try {
+				factoryClass = Class.forName(properties.getProperty(DAO_FACTORY));
+				instance = (DaoFactory) factoryClass.newInstance();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				throw new RuntimeException(e);
+			}
+		}
+		return instance;
+	}
+	
+	protected DaoFactory() {
+		
+	}
+	
+	public static void init(Properties prop) {
+		properties = prop;
+		instance = null;
+	}
+	
+	protected ConnectionFactory getConnectionFactory() {
+		//String user = properties.getProperty("connection.user");
+		//String password = properties.getProperty("connection.password");
+		//String url = properties.getProperty("connection.url");
+		//String driver = properties.getProperty("connection.driver");
+		//return new ConnectionFactoryImpl(driver, url, user, password);
+		return new ConnectionFactoryImpl(properties);
+	}
+	
+	public abstract Dao getUserDao();
 }
