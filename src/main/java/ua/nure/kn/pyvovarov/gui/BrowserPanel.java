@@ -4,11 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
+import ua.nure.kn.pyvovarov.db.DataBaseException;
+
 import java.util.ArrayList;
 
 
@@ -110,12 +114,20 @@ private JTable getUserTable() {
 	if (userTable == null) {
 		userTable = new JTable();
 		userTable.setName("userTable");
-		UserTableModel model = new UserTableModel(new ArrayList());
-		userTable.setModel(model);
 	}
 	return userTable;
 }
-
+public void initTable() {
+	UserTableModel model;
+	try {
+		model = new UserTableModel(parent.getDao().findAll());
+	} catch (DataBaseException e) {
+		model = new UserTableModel(new ArrayList());
+		JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	}
+	//userTable.setModel(model);
+	getUserTable().setModel(model);
+}
 @Override
 public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub

@@ -5,15 +5,24 @@ import java.awt.Container;
 
 import javax.swing.*;
 
+import ua.nure.kn.pyvovarov.db.Dao;
+import ua.nure.kn.pyvovarov.db.DaoFactory;
+
 public class MainFrame extends JFrame {
 	private static final int FRAME_WIDTH = 800;
 	private static final int FRAME_HEIGHT = 600;
 	private JPanel contentPanel;
 	private AddPanel addPanel;
 	private BrowserPanel browserPanel;
+	private Dao dao;
+
+	public Dao getDao() {
+		return dao;
+	}
 	public MainFrame() {
 		// TODO Auto-generated constructor stub
 		super();
+		dao = DaoFactory.getInstance().getUserDao();
 		initialize();
 	}
 	public void initialize() {
@@ -35,6 +44,7 @@ if(contentPanel === null) {
 if(browserPanel == null) {
 	browserPanel = new BrowserPanel(this);
 }
+((BrowserPanel) browserPanel).initTable();
 		return browserPanel;
 	}
 	public static void main(String[] args) {
