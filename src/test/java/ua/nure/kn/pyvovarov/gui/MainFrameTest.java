@@ -5,6 +5,9 @@ import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.TestHelper;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 import ua.nure.kn.pyvovarov.gui.MainFrame;
+import javax.swing.JTextField;
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+
 
 import java.awt.*;
 
@@ -53,5 +56,17 @@ public class MainFrameTest extends JFCTestCase {
 		find (JButton.class, DELETE_BUTTON);		
 	}
     
+    public void testAddUser() {
+		JButton addButton = (JButton) find(JButton.class, "addButton");
+		getHelper().enterClickAndLeave(new MouseEventData(this, addButton));
+
+		find(JPanel.class, "addPanel");
+
+		find(JTextField.class, "firstNameField");
+		find(JTextField.class, "lastNameField");
+		find(JTextField.class, "dateOfBirthField");
+		find(JButton.class, "okButton");
+		find(JButton.class, "cancelButton");
+	}
 }
 
