@@ -15,12 +15,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ua.nure.kn.pyvovarov.db.DaoFactory;
-import ua.nure.kn.pyvovarov.db.DataBaseException;
 import ua.nure.kn.pyvovarov.usermanagment.domain.User;
 import ua.nure.kn.pyvovarov.db.Dao;
+import ua.nure.kn.pyvovarov.db.DaoFactory;
 
-public class EditPanel extends JPanel implements ActionListener {
+
+public class DetailsPanel extends JPanel implements ActionListener {
 	private MainFrame parent;
 	private JPanel buttonPanel;
 	private JPanel fieldPanel;
@@ -33,14 +33,14 @@ public class EditPanel extends JPanel implements ActionListener {
 	private User user;
 	private Dao Dao;
 
-	public EditPanel(MainFrame parent, User usr) {
+	public DetailsPanel(MainFrame parent, User usr) {
 		this.parent = parent;
 		initialize(usr);
 	}
 
 	private void initialize(User usr) {
 		// TODO Auto-generated method stub
-		this.setName("editPanel");
+		this.setName("detailsPanel");
 		this.setLayout(new BorderLayout());
 		this.add(getFieldPanel(), BorderLayout.NORTH);
 		this.add(getButtonPanel(), BorderLayout.SOUTH);
@@ -48,6 +48,7 @@ public class EditPanel extends JPanel implements ActionListener {
 		this.user = usr;
 		setFields();
 	}
+
 	private JPanel getButtonPanel() {
 		// TODO Auto-generated method stub
 		if (buttonPanel == null) {
@@ -132,24 +133,6 @@ public class EditPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if ("ok".equalsIgnoreCase(e.getActionCommand())) {
-			user.setFirstName(getFirstNameField().getText());
-			user.setLastName(getLastNameField().getText());
-			DateFormat format = DateFormat.getDateInstance();
-			try {
-				user.setDateOfBirth(format.parse(getDateOfBirthField().getText()));
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				getDateOfBirthField().setBackground(Color.RED);
-				return;
-			}
-			try {
-				parent.getDao().update(user);
-			} catch (DataBaseException e1) {
-				// TODO Auto-generated catch block
-				JOptionPane.showMessageDialog(this, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		}
 		this.setVisible(false);
 		parent.showBrowsePanel();
 	}
@@ -166,4 +149,4 @@ public class EditPanel extends JPanel implements ActionListener {
 		getDateOfBirthField().setText(formatter.format(this.user.getDateOfBirth()));
 		getDateOfBirthField().setBackground(bgColor);
 	}
-} 
+}

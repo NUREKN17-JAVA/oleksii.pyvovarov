@@ -28,7 +28,7 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
 	}
 
 	@Override
-	public Connection createConnection() throws DatabaseException {
+	public Connection createConnection() throws DataBaseException {
 		// TODO Auto-generated method stub
 		//String url = "jdbc:hsqldb:file:db/usermanagement";
 		//String user = "sa";
@@ -44,7 +44,7 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
 			return DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			throw new DatabaseException(e);
+			throw new DataBaseException(e);
 		}
 	}
 

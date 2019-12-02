@@ -61,5 +61,8 @@ public class UserTableModel extends AbstractTableModel {
 		return (User) users.get(rowIndex);
 
 	}
-
+	public UserTableModel() {
+		// TODO Auto-generated constructor stub
+		this.users = null;
+	}
 }

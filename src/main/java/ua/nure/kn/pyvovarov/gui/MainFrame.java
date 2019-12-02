@@ -1,61 +1,82 @@
 package ua.nure.kn.pyvovarov.gui;
+
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import ua.nure.kn.pyvovarov.db.Dao;
 import ua.nure.kn.pyvovarov.db.DaoFactory;
+import ua.nure.kn.pyvovarov.usermanagment.domain.User;
 
 public class MainFrame extends JFrame {
-	private static final int FRAME_WIDTH = 800;
+
 	private static final int FRAME_HEIGHT = 600;
+	private static final int FRAME_WIDTH = 800;
 	private JPanel contentPanel;
+	private JPanel browsePanel;
 	private AddPanel addPanel;
-	private BrowserPanel browserPanel;
 	private Dao dao;
+	private EditPanel editPanel;
+	private DetailsPanel detailsPanel;
+	private UserTableModel utm;
+	private DeletePanel deletePanel;
 
 	public Dao getDao() {
 		return dao;
 	}
+
 	public MainFrame() {
-		// TODO Auto-generated constructor stub
 		super();
 		dao = DaoFactory.getInstance().getUserDao();
 		initialize();
+		utm = new UserTableModel();
 	}
-	public void initialize() {
+	
+	private void initialize() {
+		// TODO Auto-generated method stub
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		this.setTitle("”правление пользовател€ми");
-		this.setContentPane(getContentPanel());	
+		this.setTitle("User management");
+		this.setContentPane(getJContentPanel());
 	}
-	private JPanel getContentPanel() {
-if(contentPanel === null) {
-	contentPanel = new JPanel();
-	contentPanel.setLayout(new BorderLayout());
-	contentPanel.add(getBrowserPanel(),BorderLayout.CENTER);
-}
+
+	private JPanel getJContentPanel() {
+		// TODO Auto-generated method stub
+		if (contentPanel == null) {
+			contentPanel = new JPanel();
+			contentPanel.setLayout(new BorderLayout());
+			contentPanel.add(getBrowsePanel(), BorderLayout.CENTER);
+		}
 		return contentPanel;
-		
 	}
-	private JPanel getBrowserPanel() {
-if(browserPanel == null) {
-	browserPanel = new BrowserPanel(this);
-}
-((BrowserPanel) browserPanel).initTable();
-		return browserPanel;
+
+	private JPanel getBrowsePanel() {
+		// TODO Auto-generated method stub
+		if (browsePanel == null) {
+			browsePanel = new BrowserPanel(this);
+		}
+		((BrowserPanel) browsePanel).initTable();
+		return browsePanel;
 	}
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		MainFrame frame = new MainFrame();
 		frame.setVisible(true);
 
 	}
+
 	public void showAddPanel() {
 		// TODO Auto-generated method stub
 		showPanel(getAddPanel());
+	}
+	
+	public void showBrowsePanel() {
+		// TODO Auto-generated method stub
+		showPanel(getBrowsePanel());
 	}
 
 	private void showPanel(JPanel panel) {
@@ -65,17 +86,50 @@ if(browserPanel == null) {
 		panel.repaint();
 	}
 
-	public void showBrowsePanel() {
-		// TODO Auto-generated method stub
-		showPanel(getBrowsePanel());
-	}
-	
 	private AddPanel getAddPanel() {
 		// TODO Auto-generated method stub
 		if (addPanel == null) {
 			addPanel = new AddPanel(this);
 		}
 		return addPanel;
+	}
+	
+	private EditPanel getEditPanel(User user) {
+		// TODO Auto-generated method stub
+		if (editPanel == null) {
+			editPanel = new EditPanel(this, user);
 		}
+		return editPanel;
+	}
+	
+	private DetailsPanel getDetailsPanel(User user) {
+		// TODO Auto-generated method stub
+		if (detailsPanel == null) {
+			detailsPanel = new DetailsPanel(this, user);
+		}
+		return detailsPanel;
+	}
+	
+	private DeletePanel getDeletePanel(User user) {
+		// TODO Auto-generated method stub
+		if (deletePanel == null) {
+			deletePanel = new DeletePanel(this, user);
+		}
+		return deletePanel;
+	}
 
+	public void showEditPanel(int selectedRow) {
+		// TODO Auto-generated method stub
+		showPanel(getEditPanel(utm.getValueAt(selectedRow)));
+	}
+	
+	public void showDetailsPanel(int selectedRow) {
+		// TODO Auto-generated method stub
+		showPanel(getDetailsPanel(utm.getValueAt(selectedRow)));
+	}
+
+	public void showDeletePanel(int selectedRow) {
+		// TODO Auto-generated method stub
+		showPanel(getDeletePanel(utm.getValueAt(selectedRow)));
+	}
 }
