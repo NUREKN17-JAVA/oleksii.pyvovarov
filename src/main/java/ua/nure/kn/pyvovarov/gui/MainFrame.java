@@ -36,4 +36,27 @@ if(browserPanel == null) {
 }
 		return browserPanel;
 	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		MainFrame frame = new MainFrame();
+		frame.setVisible(true);
+
+	}
+	public void showAddPanel() {
+		// TODO Auto-generated method stub
+		showPanel(getAddPanel());
+	}
+
+	private void showPanel(JPanel panel) {
+		// TODO Auto-generated method stub
+		getContentPane().add(panel, BorderLayout.CENTER);
+		panel.setVisible(true);
+		panel.repaint();
+	}
+
+	private AddPanel getAddPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
