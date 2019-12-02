@@ -3,8 +3,11 @@ package ua.nure.kn.pyvovarov.gui;
 import junit.extensions.jfcunit.JFCTestCase;
 import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.TestHelper;
+import java.text.DateFormat;
+import java.util.Date;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 import ua.nure.kn.pyvovarov.gui.MainFrame;
+import junit.extensions.jfcunit.eventdata.StringEventData;
 import javax.swing.JTextField;
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 
@@ -61,16 +64,35 @@ public class MainFrameTest extends JFCTestCase {
 	}
     
     public void testAddUser() {
+    	JTable table = (JTable) find(JTable.class, "userTable");
+		assertEquals(0, table.getRowCount());
 		JButton addButton = (JButton) find(JButton.class, "addButton");
 		getHelper().enterClickAndLeave(new MouseEventData(this, addButton));
 
 		find(JPanel.class, "addPanel");
 
-		find(JTextField.class, "firstNameField");
-		find(JTextField.class, "lastNameField");
-		find(JTextField.class, "dateOfBirthField");
-		find(JButton.class, "okButton");
+		JTextField firstNameField = (JTextField) find(JTextField.class, "firstNameField");
+		JTextField lastNameField = (JTextField) find(JTextField.class, "lastNameField");
+		JTextField dateOfBirthField = (JTextField) find(JTextField.class, "dateOfBirthField");
+		JButton okButton = (JButton) find(JButton.class, "okButton");
 		find(JButton.class, "cancelButton");
+		JTextField firstNameField = (JTextField) find(JTextField.class, "firstNameField");
+		JTextField lastNameField = (JTextField) find(JTextField.class, "lastNameField");
+		JTextField dateOfBirthField = (JTextField) find(JTextField.class, "dateOfBirthField");
+		JButton okButton = (JButton) find(JButton.class, "okButton");
+		find(JButton.class, "cancelButton");
+
+		getHelper().sendString(new StringEventData(this, firstNameField, "John"));
+		getHelper().sendString(new StringEventData(this, lastNameField, "Doe"));
+		DateFormat formatter = DateFormat.getDateInstance();
+		String date = formatter.format(new Date());
+		getHelper().sendString(new StringEventData(this, dateOfBirthField, date));
+
+		getHelper().enterClickAndLeave(new MouseEventData(this, okButton));
+
+		find(JPanel.class, "browsePanel");
+		table = (JTable) find(JTable.class, "userTable");
+		assertEquals(1, table.getRowCount());
 	}
 }
 
