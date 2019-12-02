@@ -6,6 +6,9 @@ import junit.extensions.jfcunit.TestHelper;
 import java.text.DateFormat;
 import java.util.Date;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
+import ua.nure.kn.pyvovarov.db.DaoFactory;
+import ua.nure.kn.pyvovarov.db.DaoFactoryImpl;
+import ua.nure.kn.pyvovarov.db.MockUserDao;
 import ua.nure.kn.pyvovarov.gui.MainFrame;
 import junit.extensions.jfcunit.eventdata.StringEventData;
 import javax.swing.JTextField;
@@ -13,6 +16,7 @@ import junit.extensions.jfcunit.eventdata.MouseEventData;
 
 
 import java.awt.*;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,8 +33,18 @@ public class MainFrameTest extends JFCTestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        setHelper(new JFCTestHelper());
-        mainFrame = new MainFrame();
+        try {
+			Properties properties = new Properties();
+			properties.setProperty("ua.nure.kn.pyvovarov.db.UserDao", 
+									MockUserDao.class.getName());
+			properties.setProperty("dao.factory", DaoFactoryImpl.class.getName());
+			DaoFactory.getInstance().init(properties);
+
+			setHelper(new JFCTestHelper());
+			mainFrame = new MainFrame();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         mainFrame.setVisible(true);
         
     }

@@ -55,6 +55,11 @@ if(browserPanel == null) {
 		panel.repaint();
 	}
 
+	public void showBrowsePanel() {
+		// TODO Auto-generated method stub
+		showPanel(getBrowsePanel());
+	}
+	
 	private AddPanel getAddPanel() {
 		// TODO Auto-generated method stub
 		if (addPanel == null) {
