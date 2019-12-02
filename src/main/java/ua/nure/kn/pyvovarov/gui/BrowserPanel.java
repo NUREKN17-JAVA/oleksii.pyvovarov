@@ -9,6 +9,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.util.ArrayList;
+
 
 public class BrowserPanel extends JPanel implements ActionListeneristener {
 private MainFrame parent;
@@ -53,6 +55,7 @@ private JButton getDetailsButton() {
 		detailsButton = new JButton();
 		detailsButton.setText("Details");
 		detailsButton.setName("detailsButton");
+		addButton.setActionCommand("details");
 		detailsButton.addActionListener(this);
 	}
 	return detailsButton;
@@ -64,6 +67,7 @@ private JButton getDeleteButton() {
 		deleteButton = new JButton();
 		deleteButton.setText("Delete");
 		deleteButton.setName("deleteButton");
+		addButton.setActionCommand("delete");
 		deleteButton.addActionListener(this);
 	}
 	return deleteButton;
@@ -75,6 +79,7 @@ private JButton getEditButton() {
 		editButton = new JButton();
 		editButton.setText("Edit");
 		editButton.setName("editButton");
+		addButton.setActionCommand("edit");
 		editButton.addActionListener(this);
 	}
 	return editButton;
@@ -86,6 +91,7 @@ private JButton getAddButton() {
 		addButton = new JButton();
 		addButton.setText("Add");
 		addButton.setName("addButton");
+		addButton.setActionCommand("add");
 		addButton.addActionListener(this);
 	}
 	return addButton;
@@ -104,6 +110,8 @@ private JTable getUserTable() {
 	if (userTable == null) {
 		userTable = new JTable();
 		userTable.setName("userTable");
+		UserTableModel model = new UserTableModel(new ArrayList());
+		userTable.setModel(model);
 	}
 	return userTable;
 }
@@ -111,6 +119,10 @@ private JTable getUserTable() {
 @Override
 public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
-
+	String actionCommand = e.getActionCommand();
+	if ("add".equalsIgnoreCase(actionCommand)) {
+		this.setVisible(false);
+		parent.showAddPanel();
+	}
 }
 }

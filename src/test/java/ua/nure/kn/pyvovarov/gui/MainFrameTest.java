@@ -13,6 +13,7 @@ import java.awt.*;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 public class MainFrameTest extends JFCTestCase {
     
@@ -49,8 +50,11 @@ public class MainFrameTest extends JFCTestCase {
     }
     public void testBrowseControls() {
 		find(JPanel.class,BROWSE_PANEL);
-		//find user table
-		find (JButton.class, ADD_BUTTON);
+		JTable table = (JTable) find(JTable.class, "userTable");
+		assertEquals(3, table.getColumnCount());
+		assertEquals("ID", table.getColumnName(0));
+		assertEquals("Name", table.getColumnName(1));
+		assertEquals("Surname", table.getColumnName(2));		find (JButton.class, ADD_BUTTON);
 		find (JButton.class, EDIT_BUTTON);
 		find (JButton.class, DETAILS_BUTTON);
 		find (JButton.class, DELETE_BUTTON);		

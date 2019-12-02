@@ -9,6 +9,7 @@ public class MainFrame extends JFrame {
 	private static final int FRAME_WIDTH = 800;
 	private static final int FRAME_HEIGHT = 600;
 	private JPanel contentPanel;
+	private AddPanel addPanel;
 	private BrowserPanel browserPanel;
 	public MainFrame() {
 		// TODO Auto-generated constructor stub
@@ -56,7 +57,10 @@ if(browserPanel == null) {
 
 	private AddPanel getAddPanel() {
 		// TODO Auto-generated method stub
-		return null;
-	}
+		if (addPanel == null) {
+			addPanel = new AddPanel(this);
+		}
+		return addPanel;
+		}
 
 }
