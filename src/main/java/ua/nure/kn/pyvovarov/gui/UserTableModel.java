@@ -53,6 +53,13 @@ public class UserTableModel extends AbstractTableModel {
 		case 2:
 			return user.getLastName();
 		}
+		return -1;
+	}
+
+	public User getValueAt(int rowIndex) {
+		// TODO Auto-generated method stub
+		return (User) users.get(rowIndex);
+
 	}
 
 }

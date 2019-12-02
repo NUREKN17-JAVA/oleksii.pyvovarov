@@ -13,8 +13,12 @@ public class User implements Serializable {
     private String lastName;
     private Date dateOfBirth;
     
-    public User() {
-    }
+    public User(String firstName, String lastName, Date now) {
+		// TODO Auto-generated constructor stub
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.dateOfBirth = now;
+	}
     
     public Long getId() {
         return id;
@@ -81,4 +85,24 @@ public class User implements Serializable {
     public String getFullName() {
         return getFirstName() + " " + getLastName();
     }
+    
+    public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (this == obj) {
+			return true;
+		}
+		if (this.getId() == null && ((User) obj).getId() == null) {
+			return true;
+		}
+
+		return this.getId().equals(((User) obj).getId());
+	}
+    public int hashCode() {
+		if (this.getId() == null) {
+			return 0;
+		}
+		return this.getId().hashCode();
+	}
 }
