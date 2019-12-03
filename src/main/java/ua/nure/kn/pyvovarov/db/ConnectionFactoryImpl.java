@@ -5,47 +5,48 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class ConnectionFactoryImpl implements ConnectionFactory {
+import javax.management.RuntimeErrorException;
 
-	private String driver;
+public class ConnectionFactoryImpl implements ConnectionFactory {
+	private static final String CONNECTION_DRIVER = "connection.driver";
+	private static final String CONNECTION_URL = "connection.url";
+	private static final String CONNECTION_USER = "connection.user";
+	private static final String CONNECTION_PASSWORD = "connection.password";
+	
+	
 	private String url;
 	private String user;
 	private String password;
+	private String driver;
+
+	public ConnectionFactoryImpl(Properties properties) {
+		this.driver = properties.getProperty(CONNECTION_DRIVER);
+		this.url = properties.getProperty(CONNECTION_URL);;
+		this.user = properties.getProperty(CONNECTION_USER);;
+		this.password = properties.getProperty(CONNECTION_PASSWORD);; 
+	}
 	
 	public ConnectionFactoryImpl(String driver, String url, String user, String password) {
-		// TODO Auto-generated constructor stub
 		this.driver = driver;
 		this.url = url;
 		this.user = user;
-		this.password = password;
+		this.password = password; 
 	}
-
-	public ConnectionFactoryImpl(Properties properties) {
-		user = properties.getProperty("connection.user");
-		password = properties.getProperty("connection.password");
-		url = properties.getProperty("connection.url");
-		driver = properties.getProperty("connection.driver");
-	}
-
+	
+	public ConnectionFactoryImpl() {	}
 	@Override
 	public Connection createConnection() throws DataBaseException {
-		// TODO Auto-generated method stub
-		//String url = "jdbc:hsqldb:file:db/usermanagement";
-		//String user = "sa";
-		//String password = "";
-		//String driver = "org.hsqldb.jdbcDriver";
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			throw new RuntimeException(e);
-		}
-		try {
-			return DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new DataBaseException(e);
-		}
+	    try {
+	      Class.forName(driver);
+	    } catch (ClassNotFoundException e) {
+	      throw new RuntimeException(e);
+	    }
+	    try {
+	      return DriverManager.getConnection(url, user, password);
+	    } catch (SQLException e) {
+	      throw new DataBaseException(e);
+	    }
 	}
+	
 
 }
