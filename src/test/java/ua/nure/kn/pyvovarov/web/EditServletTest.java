@@ -14,10 +14,10 @@ public class EditServletTest extends MockServletTestCase {
 	    private static final String LAST_NAME_PARAMETER = "lastName";
 	    private static final String FIRST_NAME_PARAMETER = "firstName";
 	    private static final String ID_VALUE = "1000";
-	    private static final String ID_PARAMETER = "id";
-	    private static final String UPDATE_USER = "updateUser";
-	    private static final String LAST_NAME = "Dima";
-	    private static final String FIRST_NAME = "Kirillov";
+	    private static final String ID_PARAMETER = "id";  
+	    private static final String UPDATE_USER = "update";
+	    private static final String LAST_NAME = "Doe";
+	    private static final String FIRST_NAME = "Joe";
 
 	    @Override
 	    protected void setUp() throws Exception {
@@ -27,7 +27,7 @@ public class EditServletTest extends MockServletTestCase {
 
 	    public void testEdit() {
 	        Date date = new Date();
-	        User user = new User(1000L, FIRST_NAME, LAST_NAME, new Date());
+	        User user = new User(new Long(1000), FIRST_NAME, LAST_NAME, new Date());
 	        getMockUserDao().expect(UPDATE_USER, user);
 
 	        addRequestParameter(ID_PARAMETER, ID_VALUE);
