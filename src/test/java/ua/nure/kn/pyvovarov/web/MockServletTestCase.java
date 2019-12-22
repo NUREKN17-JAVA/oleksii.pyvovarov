@@ -10,7 +10,7 @@ import ua.nure.kn.pyvovarov.db.MockDaoFactory;
 
 public class MockServletTestCase extends BasicServletTestCaseAdapter {
 
-
+	private static final String DAO_FACTORY = "dao.factory";
 	private Mock mockUserDao;
 
 	public Mock getMockUserDao() {
@@ -24,7 +24,7 @@ public class MockServletTestCase extends BasicServletTestCaseAdapter {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Properties properties = new Properties();
-		properties.setProperty("dao.factory", MockDaoFactory.class.getName());
+		properties.setProperty(DAO_FACTORY, MockDaoFactory.class.getName());
 		DaoFactory.init(properties);
 		setMockUserDao(((MockDaoFactory)DaoFactory.getInstance()).getMockUserDao());
 	}
