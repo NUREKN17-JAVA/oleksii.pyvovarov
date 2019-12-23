@@ -65,7 +65,7 @@ public class AddServletTest extends MockServletTestCase {
         addRequestParameter(LAST_NAME_PARAMETER, LAST_NAME);
         addRequestParameter(OK_BUTTON_PARAMETER, OK_BUTTON);
         doPost();
-        String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute(ERROR_ATTRIBUTE);
+        Stsring errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute(ERROR_ATTRIBUTE);
         assertNotNull("Could not find error message in session scope", errorMessage);
     }
 
