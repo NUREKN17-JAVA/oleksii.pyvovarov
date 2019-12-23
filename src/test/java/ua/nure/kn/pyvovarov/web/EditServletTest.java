@@ -76,7 +76,7 @@ public class EditServletTest extends MockServletTestCase {
 	        addRequestParameter(ID_PARAMETER, ID_VALUE);
 	        addRequestParameter(FIRST_NAME_PARAMETER, FIRST_NAME);
 	        addRequestParameter(LAST_NAME_PARAMETER, LAST_NAME);
-	        addRequestParameter(DATE_PARAMETER, "Hello)))");
+	        addRequestParameter(DATE_PARAMETER, "Hello))");
 	        addRequestParameter(OK_BUTTON_PARAMETER, OK_BUTTON);
 	        doPost();
 	        String errorMessage = (String)getWebMockObjectFactory().getMockRequest().getAttribute(ERROR_ATTRIBUTE);
