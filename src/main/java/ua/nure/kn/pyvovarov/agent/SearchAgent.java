@@ -1,6 +1,9 @@
 package ua.nure.kn.pyvovarov.agent;
 import jade.core.Agent;
-import ua.nure.kn.pyvovarov.db.DaoFactory;
+import jade.domain.DFService;
+import jade.domain.FIPAException;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;import ua.nure.kn.pyvovarov.db.DaoFactory;
 import ua.nure.kn.pyvovarov.db.DataBaseException;
 import jade.core.AID;
 import java.util.Collection;
@@ -12,6 +15,20 @@ public class SearchAgent extends Agent {
 		// TODO Auto-generated method stub
 		super.setup();
 		System.out.println(getAID().getName() + " started");
+
+		DFAgentDescription description = new DFAgentDescription();
+		description.setName(getAID());
+		ServiceDescription serviceDescription = new ServiceDescription();
+		serviceDescription.setName("JADE-searching");
+		serviceDescription.setType("searching");
+		description.addServices(serviceDescription);
+		try {
+			DFService.register(this, description);
+		} catch (FIPAException e) {
+			e.printStackTrace();
+		}
+
+		addBehaviour(new RequestServer());
 	}
 
 	@Override
