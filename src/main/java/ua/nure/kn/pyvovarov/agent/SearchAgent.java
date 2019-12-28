@@ -11,13 +11,15 @@ import java.util.Collection;
 
 public class SearchAgent extends Agent {
 	private AID[] aids;
+	private SearchGui gui = null;
 
 	@Override
 	protected void setup() {
 		// TODO Auto-generated method stub
 		super.setup();
 		System.out.println(getAID().getName() + " started");
-
+		gui = new SearchGui(this);
+		gui.setVisible(true);
 		DFAgentDescription description = new DFAgentDescription();
 		description.setName(getAID());
 		ServiceDescription serviceDescription = new ServiceDescription();
@@ -29,6 +31,8 @@ public class SearchAgent extends Agent {
 		} catch (FIPAException e) {
 			e.printStackTrace();
 		}
+		gui.setVisible(false);
+		gui.dispose();
 		addBehaviour(new TickerBehaviour(this, 6000) {
 			@Override
 			protected void onTick() {
@@ -73,6 +77,7 @@ public class SearchAgent extends Agent {
 	}
 
 	 void showUsers(Collection user) {
+			gui.addUsers(user);
 
 	}
 
