@@ -2,7 +2,7 @@ package ua.nure.kn.pyvovarov.agent;
 import jade.core.Agent;
 import ua.nure.kn.pyvovarov.db.DaoFactory;
 import ua.nure.kn.pyvovarov.db.DataBaseException;
-
+import jade.core.AID;
 import java.util.Collection;
 
 public class SearchAgent extends Agent {
@@ -26,7 +26,7 @@ public class SearchAgent extends Agent {
 			if (users.size() > 0) {
 				showUsers(users);
 			} else {
-
+				addBehaviour(new SearchRequestBehaviour(new AID[] {}, firstName, lastName));
 			}
 		} catch (DataBaseException e) {
 			throw new SearchException(e);
