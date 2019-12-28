@@ -65,4 +65,12 @@ public class UserTableModel extends AbstractTableModel {
 		// TODO Auto-generated constructor stub
 		this.users = null;
 	}
+	
+	public void addUsers(Collection users) {
+		this.users.addAll(users);
+	}
+
+	public void clearUsers() {
+		this.users = new ArrayList();
+	}
 }
