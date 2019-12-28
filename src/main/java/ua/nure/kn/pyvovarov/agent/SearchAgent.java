@@ -1,5 +1,9 @@
 package ua.nure.kn.pyvovarov.agent;
 import jade.core.Agent;
+import ua.nure.kn.pyvovarov.db.DaoFactory;
+import ua.nure.kn.pyvovarov.db.DataBaseException;
+
+import java.util.Collection;
 
 public class SearchAgent extends Agent {
 
@@ -15,6 +19,22 @@ public class SearchAgent extends Agent {
 		// TODO Auto-generated method stub
 		System.out.println(getAID().getName() + " terminated");
 		super.takeDown();
+	}
+	public void search(String firstName, String lastName) throws SearchException {
+		try {
+			Collection users = DaoFactory.getInstance().getUserDao().find(firstName, lastName);
+			if (users.size() > 0) {
+				showUsers(users);
+			} else {
+
+			}
+		} catch (DataBaseException e) {
+			throw new SearchException(e);
+		}
+	}
+
+	private void showUsers(Collection user) {
+
 	}
 
 }
